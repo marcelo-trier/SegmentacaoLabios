@@ -26,14 +26,19 @@ import br.labios.yiq.YIQ;
 public class JanelaPrincipal extends JFrame {
 
 	private JDesktopPane contentPane;
+	protected boolean imagemMesmaJanela = false;
 
 	public void clickI3() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
+		String msg = "From[ " + ti.id + " ] Algoritmo::I3";
 		try {
 			I3 i3 = new I3( ti.getImage() );
 			i3.execute();
 			BufferedImage out = i3.geraImagem();
-			ti.addNewImage(out);
+			if( imagemMesmaJanela )
+				ti.addNewImage(out);
+			else
+				mostraImagem( msg, out );
 		} catch (Exception e) {
 			int aa = 0;
 			aa++;
@@ -43,11 +48,15 @@ public class JanelaPrincipal extends JFrame {
 	
 	public void clickPseudoHue() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
+		String msg = "From[ " + ti.id + " ] Algoritmo::PseudoHue";
 		try {
 			PseudoHue ph = new PseudoHue( ti.getImage() );
 			ph.execute();
 			BufferedImage out = ph.geraImagem();
-			ti.addNewImage(out);
+			if( imagemMesmaJanela )
+				ti.addNewImage(out);
+			else
+				mostraImagem( msg, out );
 		} catch (Exception e) {
 			int aa = 0;
 			aa++;
@@ -56,12 +65,16 @@ public class JanelaPrincipal extends JFrame {
 	
 	public void clickYIQ() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
+		String msg = "From[ " + ti.id + " ] Algoritmo::YIQ";
 		try {
 			YIQ yiq = new YIQ(ti.getImage());
 			//yiq.init();
 			yiq.execute();
 			BufferedImage out = yiq.geraImagem();
-			ti.addNewImage(out);
+			if( imagemMesmaJanela )
+				ti.addNewImage(out);
+			else
+				mostraImagem( msg, out );
 		} catch (Exception e) {
 			// TODO::
 		}
@@ -108,12 +121,15 @@ public class JanelaPrincipal extends JFrame {
 
 	public void clickYCbCr() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
-		// img = ti.getImage();
+		String msg = "From[ " + ti.id + " ] Algoritmo::YCbCr";
 		try {
 			YCbCr ycc = new YCbCr(ti.getImage());
 			ycc.execute();
 			BufferedImage out = ycc.geraImagem();
-			ti.addNewImage(out);
+			if( imagemMesmaJanela )
+				ti.addNewImage(out);
+			else
+				mostraImagem( msg, out );
 		} catch (Exception e) {
 
 		}
