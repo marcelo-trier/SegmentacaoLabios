@@ -9,5 +9,14 @@ public abstract class OsPixel extends Point {
 	
 	public abstract void setRgb( int[] rgb );
 	
-	public abstract int compareTo( int limite );
+	public int compareTo(int limite) {
+		int vlr = getHistogramValue();
+		if (vlr < limite)
+			return -1;
+		if (vlr > limite)
+			return 1;
+		return 0;
+	}	
+
+	public abstract int getHistogramValue();
 }

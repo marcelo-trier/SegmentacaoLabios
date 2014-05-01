@@ -30,13 +30,9 @@ public class PixelPseudoHue extends OsPixel {
 		normalizado = normalizado / (max - min);
 	}
 
-	public int compareTo(int limite) {
-		int vlr = (int) (pseudoHue * 100);
-		if (vlr < limite)
-			return -1;
-		if (vlr > limite)
-			return 1;
-		return 0;
+	@Override
+	public int getHistogramValue() {
+		return (int) (pseudoHue * 100);
 	}
 
 }

@@ -70,10 +70,9 @@ public class JanelaPrincipal extends JFrame {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
 		try {
 			YIQ yiq = new YIQ(ti.getImage());
-			yiq.init();
+			//yiq.init();
 			yiq.execute();
-			int limiar = yiq.getLimiar();
-			BufferedImage out = yiq.geraImagem(limiar);
+			BufferedImage out = yiq.geraImagem();
 			ti.addNewImage(out);
 		} catch (Exception e) {
 			// TODO::

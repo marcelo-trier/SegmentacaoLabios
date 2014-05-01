@@ -5,7 +5,11 @@ import br.labios.util.OsPixel;
 public class PixelI3 extends OsPixel {
 
 	public float I3 = 0;
+	public static float min = 999;
+	public static float max = -1;
 
+	public float I3Norm = 0;
+	
 	@Override
 	public void setRgb(int[] rgb) {
 		float R = rgb[0];
@@ -15,15 +19,26 @@ public class PixelI3 extends OsPixel {
 		float calculo = (float) (2 * G - R - 0.5 * B);
 		calculo = (float) (calculo * 0.25);
 		I3 = calculo;
+		
+		if( x == 180 && y == 50 ) {
+			int a = ( int )I3;
+			a++;
+		}
+		
+		if( I3 < min )
+			min = I3;
+		if( I3 > max )
+			max = I3;
 	}
 
+	public void normalize() {
+		I3Norm = I3 - min;
+		I3Norm = I3Norm / (max - min);
+	}
+	
 	@Override
-	public int compareTo(int limite) {
-		if (I3 < limite)
-			return -1;
-		if (I3 > limite)
-			return 1;
-		return 0;
+	public int getHistogramValue() {
+		return (int) (I3Norm * 100);
 	}
 
 }

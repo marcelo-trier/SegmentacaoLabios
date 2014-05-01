@@ -7,32 +7,22 @@ import java.util.ArrayList;
 
 import br.labios.YCbCr.PixelYCbCr;
 import br.labios.util.Histograma;
+import br.labios.util.OsPixel;
 import br.labios.util.PixelManager;
+import br.labios.util.PixelManager2;
 
-public class YIQ extends PixelManager {
+public class YIQ extends PixelManager2<PixelYIQ> {
 
-	ArrayList<PixelYIQ> aLista = new ArrayList<PixelYIQ>();
-
-	//int histograma[] = new int[ 256 ];
-	Histograma oHistograma = new Histograma( 254 );
-	int maxHist = 0;
-	
-	
-	public YIQ(BufferedImage i) {
-		super(i);
-		// TODO Auto-generated constructor stub
+	public YIQ(BufferedImage i) throws Exception {
+		super( PixelYIQ.class, i, OsPixel.pixBrco, OsPixel.pixPreto );
 	}
 
-	
-	public int getLimiar() {
-		return oHistograma.superT;
+	@Override
+	public int getHistogramSize() {
+		return 255;
 	}
-	
-	public BufferedImage geraImagem() {
-		return geraImagem( oHistograma.superT );
-	}
-	
-	
+
+	/*
 	public BufferedImage geraImagem( int limiar ) {
 		//BufferedImage out = oHistograma.geraImagem();
 		BufferedImage outImg = new BufferedImage( _img.getWidth(), _img.getHeight(), _img.getType() );
@@ -51,8 +41,9 @@ public class YIQ extends PixelManager {
 		
 		return outImg;
 	}
+	*/
 	
-	@Override
+	/*
 	public void processaPixel(int[] pix, int x, int y) {
 		PixelYIQ p = new PixelYIQ( x, y );
 		p.setRgb( pix );
@@ -63,11 +54,12 @@ public class YIQ extends PixelManager {
 	public void init() throws Exception {
 		percorraTodosPixels();
 	}
-
-	@Override
+	*/
+	
 	public void execute() {
 		for( PixelYIQ p : aLista ) {
-			oHistograma.soma( p.yiq[ p.Q ] + 127 ); // aqui to somando 127 pq o Q tem a escala [-127, +127]
+			int vlr = p.getHistogramValue();
+			oHistograma.soma( vlr ); // aqui to somando 127 pq o Q tem a escala [-127, +127]
 		}
 		int t = oHistograma.getOtsuThreshold();	
 	}

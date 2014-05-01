@@ -11,20 +11,20 @@ import br.labios.yiq.PixelYIQ;
 
 public class PseudoHue extends PixelManager2<PixelPseudoHue> {
 
-	//Histograma oHistograma = new Histograma( 100 );
-	
-	
 	public PseudoHue( BufferedImage i) throws Exception {
 		super( PixelPseudoHue.class, i, OsPixel.pixBrco, OsPixel.pixPreto );
-		oHistograma = new Histograma( 100 );
-		percorraTodosPixels();
 	}
 
 	public void execute() {
 		for( PixelPseudoHue p : aLista ) {
-			int vlr = ( int ) ( p.pseudoHue * 100 );
+			int vlr = p.getHistogramValue();
 			oHistograma.soma( vlr );
 		}
 		int t = oHistograma.getOtsuThreshold();	
+	}
+
+	@Override
+	public int getHistogramSize() {
+		return 100;
 	}
 }

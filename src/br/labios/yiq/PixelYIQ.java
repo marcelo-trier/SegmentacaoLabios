@@ -2,11 +2,13 @@ package br.labios.yiq;
 
 import java.awt.Point;
 
+import br.labios.util.OsPixel;
+
 // YIQ RANGE:
 //	Y		->	[ 0, 255 ]
 //	I e Q 	->	[ -127, +127 ]
 
-public class PixelYIQ extends Point {
+public class PixelYIQ extends OsPixel {
 	static final int Y=0, I=1, Q=2;
 	float rgb2yiq[][] = {
 			{ 0.299f, 0.587f, 0.114f },
@@ -20,10 +22,6 @@ public class PixelYIQ extends Point {
 	static final int minYIQ[] = { 0, -127, -127 };
 	static final int maxYIQ[] = { 255, 127, 127 };
 
-	public PixelYIQ( int x, int y ) {
-		super( x, y );
-	}
-	
 	
 	public void setRgb( int[] rgb ) {
 		for( int line=0; line<3; line++ )
@@ -45,6 +43,11 @@ public class PixelYIQ extends Point {
 		norm = valor - minYIQ[ ch ];
 		norm = norm / ( maxYIQ[ ch ] - minYIQ[ ch ] );
 		yiqNorm[ ch ] = norm; // jah tem um vetor normalizado...
+	}
+
+	@Override
+	public int getHistogramValue() {
+		return yiq[ Q ] + 127;
 	}
 	
 }

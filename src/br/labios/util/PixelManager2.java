@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import br.labios.yiq.PixelYIQ;
 
 public abstract class PixelManager2<T extends OsPixel> {
-
-	
 	
 	protected ArrayList<T> aLista = new ArrayList<T>();
 	protected Histograma oHistograma;
@@ -20,11 +18,14 @@ public abstract class PixelManager2<T extends OsPixel> {
 	protected int pixBinary1[];
 	protected int pixBinary2[];
 
-	public PixelManager2(Class<? extends OsPixel> clazz, BufferedImage i, int pix1[], int pix2[] ) {
+	public PixelManager2(Class<? extends OsPixel> clazz, BufferedImage i, int pix1[], int pix2[] ) throws Exception {
 		PixelClass = clazz;
 		_img = i;
 		pixBinary1 = pix1;
 		pixBinary2 = pix2;
+		
+		oHistograma = new Histograma( getHistogramSize() );
+		percorraTodosPixels();
 	}
 
 	public void percorraTodosPixels() throws Exception {
@@ -75,5 +76,5 @@ public abstract class PixelManager2<T extends OsPixel> {
 	}
 
 	public abstract void execute();
-
+	public abstract int getHistogramSize();
 }
