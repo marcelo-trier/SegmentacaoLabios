@@ -1,19 +1,10 @@
 package br.labios.ui;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
@@ -23,15 +14,12 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 
 import br.labios.YCbCr.YCbCr;
 import br.labios.i3.I3;
 import br.labios.pseudohue.PseudoHue;
 import br.labios.yiq.YIQ;
-
-import javax.swing.JScrollPane;
 
 // vou usar as fotos de: http://fei.edu.br/~cet/facedatabase.html
 
@@ -91,10 +79,8 @@ public class JanelaPrincipal extends JFrame {
 			for (JInternalFrame tela : todas) {
 				TelaInterna ti = (TelaInterna) tela;
 				YCbCr ycc = new YCbCr(ti.getImage());
-				ycc.init();
 				ycc.execute();
-				int limiar = ycc.getLimiar();
-				BufferedImage out = ycc.geraImagem(limiar);
+				BufferedImage out = ycc.geraImagem();
 				ti.addNewImage(out);
 			}
 		} catch (Exception e) {
@@ -125,10 +111,8 @@ public class JanelaPrincipal extends JFrame {
 		// img = ti.getImage();
 		try {
 			YCbCr ycc = new YCbCr(ti.getImage());
-			ycc.init();
 			ycc.execute();
-			int limiar = ycc.getLimiar();
-			BufferedImage out = ycc.geraImagem(limiar);
+			BufferedImage out = ycc.geraImagem();
 			ti.addNewImage(out);
 		} catch (Exception e) {
 

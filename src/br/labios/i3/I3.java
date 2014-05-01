@@ -2,8 +2,6 @@ package br.labios.i3;
 
 import java.awt.image.BufferedImage;
 
-import br.labios.pseudohue.PixelPseudoHue;
-import br.labios.util.Histograma;
 import br.labios.util.OsPixel;
 import br.labios.util.PixelManager2;
 
