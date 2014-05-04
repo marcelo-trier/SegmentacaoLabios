@@ -12,15 +12,13 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.border.EmptyBorder;
 
 import br.labios.YCbCr.YCbCr;
-import br.labios.i3.I3;
-import br.labios.pseudohue.PseudoHue;
 import br.labios.util.Algoritmos;
 import br.labios.util.GerenteArquivos;
 import br.labios.util.PixelManager2;
-import br.labios.yiq.YIQ;
 
 // vou usar as fotos de: http://fei.edu.br/~cet/facedatabase.html
 
@@ -30,16 +28,37 @@ public class JanelaPrincipal extends JFrame {
 	protected boolean imagemMesmaJanela = false;
 	protected GerenteArquivos fileManager = new GerenteArquivos(this);
 
+	long initTime = 0;
+	
+	public void tempoInicio() {
+		initTime = System.currentTimeMillis();
+	}
+
+	public float tempoFim( boolean mostrar ) {
+		long fim = System.currentTimeMillis();
+		float tempo = fim - initTime;
+		tempo = ( float )tempo / 1000f;
+		if( mostrar ) {
+			String msg = String.format("Tempo demora: %.02f seg", tempo );
+			JOptionPane.showMessageDialog( this, msg );
+		}
+		return tempo;
+	}
+	
 	public void clickFazTudo() throws Exception {
 		BufferedImage imagem;
 		File files[] = fileManager.carregaArquivos();
+		File dirDestino = fileManager.selecionaDiretorio();
+		tempoInicio();
 		for ( File f : files ) {
 			imagem = ImageIO.read( f );
 			for( Algoritmos alg : Algoritmos.values() ) {
 				PixelManager2<?> obj = Algoritmos.novoAlgoritmo( alg, imagem );
 				obj.execute();
+				fileManager.saveAlgoritmo( obj.geraImagem(), f, dirDestino, alg );
 			}
 		}
+		tempoFim( true );
 	}
 
 	public void clickAlgoritmo( Algoritmos alg ) throws Exception {
@@ -50,71 +69,6 @@ public class JanelaPrincipal extends JFrame {
 		mostraImagem( msg, obj.geraImagem() );
 	}
 	
-	public void clickI3() {
-		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
-		String msg = "From[ " + ti.id + " ] Algoritmo::I3";
-		try {
-			I3 i3 = new I3(ti.getImage());
-			i3.execute();
-			BufferedImage out = i3.geraImagem();
-			if (imagemMesmaJanela)
-				ti.addNewImage(out);
-			else
-				mostraImagem(msg, out);
-		} catch (Exception e) {
-			// TODO:
-		}
-	}
-
-	public void clickPseudoHue() {
-		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
-		String msg = "From[ " + ti.id + " ] Algoritmo::PseudoHue";
-		try {
-			PseudoHue ph = new PseudoHue(ti.getImage());
-			ph.execute();
-			BufferedImage out = ph.geraImagem();
-			if (imagemMesmaJanela)
-				ti.addNewImage(out);
-			else
-				mostraImagem(msg, out);
-		} catch (Exception e) {
-			// TODO:
-		}
-	}
-
-	public void clickYIQ() {
-		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
-		String msg = "From[ " + ti.id + " ] Algoritmo::YIQ";
-		try {
-			YIQ yiq = new YIQ(ti.getImage());
-			// yiq.init();
-			yiq.execute();
-			BufferedImage out = yiq.geraImagem();
-			if (imagemMesmaJanela)
-				ti.addNewImage(out);
-			else
-				mostraImagem(msg, out);
-		} catch (Exception e) {
-			// TODO::
-		}
-	}
-
-	public void clickYCbCr() {
-		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
-		String msg = "From[ " + ti.id + " ] Algoritmo::YCbCr";
-		try {
-			YCbCr ycc = new YCbCr(ti.getImage());
-			ycc.execute();
-			BufferedImage out = ycc.geraImagem();
-			if (imagemMesmaJanela)
-				ti.addNewImage(out);
-			else
-				mostraImagem(msg, out);
-		} catch (Exception e) {
-
-		}
-	}
-
 	public void mostraImagem(String titulo, BufferedImage imgOut) {
 		TelaInterna interno = new TelaInterna(titulo, imgOut);
 		contentPane.add(interno);

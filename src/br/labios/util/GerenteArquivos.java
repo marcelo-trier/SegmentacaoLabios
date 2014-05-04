@@ -17,6 +17,20 @@ public class GerenteArquivos {
 		parent = umaJanela;
 	}
 	
+	public File selecionaDiretorio() throws IOException {
+		File umDir = new File(System.getProperty("user.dir"));
+		fc.setCurrentDirectory(umDir);
+		fc.setDialogType(JFileChooser.DIRECTORIES_ONLY);
+		fc.setAcceptAllFileFilterUsed(false);
+		if ( fc.showSaveDialog( parent ) != JFileChooser.APPROVE_OPTION) {
+			throw new IOException();
+		}
+
+		File dir = fc.getCurrentDirectory();
+		return dir;
+		
+	}
+	
 	public BufferedImage carregaImagem() throws IOException {
 		fc.setDialogType(JFileChooser.OPEN_DIALOG);
 		File umDir = new File(System.getProperty("user.dir"));
@@ -29,7 +43,7 @@ public class GerenteArquivos {
 	}
 
 	public File[] carregaArquivos() throws Exception  {
-		//JFileChooser fileChooser = new JFileChooser();
+
 		fc.setDialogType(JFileChooser.OPEN_DIALOG);
 		fc.setMultiSelectionEnabled(true);
 		File umDir = new File(System.getProperty("user.dir"));
@@ -48,6 +62,14 @@ public class GerenteArquivos {
 			imgs[i] = ImageIO.read( files[i] );
 		}
 		return imgs;
+	}
+	
+	public void saveAlgoritmo( BufferedImage img, File original, File dir, Algoritmos alg ) throws IOException {
+		String novoNome = dir.getCanonicalPath();
+		novoNome += "/" + original.getName() + "(" + alg.toString() + ").bmp";
+		//String novoNome = original.getAbsolutePath() + "(" + alg.toString() + ").bmp";
+		File salvar = new File( novoNome );
+		ImageIO.write( img, "bmp", salvar );
 	}
 	
 	public void save( BufferedImage img ) throws Exception {
