@@ -22,8 +22,7 @@ public class YCbCr extends PixelManager2<PixelYCbCr> {
 			oHistograma.soma( p.getHistogramValue() );
 		}
 		
-		// TODO: aqui vai o otsu
-		int t = oHistograma.getOtsuThreshold();
+		oHistograma.getOtsuThreshold();
 	}
 
 	@Override

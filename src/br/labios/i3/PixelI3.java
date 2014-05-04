@@ -20,10 +20,6 @@ public class PixelI3 extends OsPixel {
 		calculo = (float) (calculo * 0.25);
 		I3 = calculo;
 		
-		if( x == 180 && y == 50 ) {
-			int a = ( int )I3;
-			a++;
-		}
 		
 		if( I3 < min )
 			min = I3;

@@ -1,7 +1,5 @@
 package br.labios.pseudohue;
 
-import java.awt.Point;
-
 import br.labios.util.OsPixel;
 
 public class PixelPseudoHue extends OsPixel {

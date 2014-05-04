@@ -87,7 +87,7 @@ public class Histograma {
 	
 	public BufferedImage geraImagem() {
 		BufferedImage out = new BufferedImage( 256*2, 150, BufferedImage.TYPE_INT_RGB );
-		int[] pix = { 0, 0, 0, 255 };
+		//int[] pix = { 0, 0, 0, 255 };
 
 	    Graphics2D g = out.createGraphics();
 	    g.setColor( Color.WHITE );

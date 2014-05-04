@@ -5,8 +5,6 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 import java.util.ArrayList;
 
-import br.labios.yiq.PixelYIQ;
-
 public abstract class PixelManager2<T extends OsPixel> {
 	
 	protected ArrayList<T> aLista = new ArrayList<T>();
@@ -56,7 +54,7 @@ public abstract class PixelManager2<T extends OsPixel> {
 		BufferedImage outImg = new BufferedImage(_img.getWidth(),
 				_img.getHeight(), _img.getType());
 		WritableRaster outRaster = outImg.getRaster();
-		Raster r = _img.getData();
+		//Raster r = _img.getData();
 
 		//final int[] pixPreto = { 0, 0, 0, 255 };
 		//final int[] pixBrco = { 255, 255, 255, 255 };

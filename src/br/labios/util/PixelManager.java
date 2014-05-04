@@ -2,7 +2,6 @@ package br.labios.util;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 
 public abstract class PixelManager {
 

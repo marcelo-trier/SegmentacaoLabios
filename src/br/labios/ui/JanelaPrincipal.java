@@ -4,11 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -19,6 +17,9 @@ import javax.swing.border.EmptyBorder;
 import br.labios.YCbCr.YCbCr;
 import br.labios.i3.I3;
 import br.labios.pseudohue.PseudoHue;
+import br.labios.util.Algoritmos;
+import br.labios.util.GerenteArquivos;
+import br.labios.util.PixelManager2;
 import br.labios.yiq.YIQ;
 
 // vou usar as fotos de: http://fei.edu.br/~cet/facedatabase.html
@@ -27,95 +28,74 @@ public class JanelaPrincipal extends JFrame {
 
 	private JDesktopPane contentPane;
 	protected boolean imagemMesmaJanela = false;
+	protected GerenteArquivos fileManager = new GerenteArquivos(this);
 
+	public void clickFazTudo() throws Exception {
+		BufferedImage imagem;
+		File files[] = fileManager.carregaArquivos();
+		for ( File f : files ) {
+			imagem = ImageIO.read( f );
+			for( Algoritmos alg : Algoritmos.values() ) {
+				PixelManager2<?> obj = Algoritmos.novoAlgoritmo( alg, imagem );
+				obj.execute();
+			}
+		}
+	}
+
+	public void clickAlgoritmo( Algoritmos alg ) throws Exception {
+		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
+		String msg = "From[ " + ti.id + " ] Algoritmo::" + alg.toString();
+		PixelManager2<?> obj = Algoritmos.novoAlgoritmo( alg, getImage() );
+		obj.execute();
+		mostraImagem( msg, obj.geraImagem() );
+	}
+	
 	public void clickI3() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
 		String msg = "From[ " + ti.id + " ] Algoritmo::I3";
 		try {
-			I3 i3 = new I3( ti.getImage() );
+			I3 i3 = new I3(ti.getImage());
 			i3.execute();
 			BufferedImage out = i3.geraImagem();
-			if( imagemMesmaJanela )
+			if (imagemMesmaJanela)
 				ti.addNewImage(out);
 			else
-				mostraImagem( msg, out );
+				mostraImagem(msg, out);
 		} catch (Exception e) {
-			int aa = 0;
-			aa++;
+			// TODO:
 		}
 	}
-	
-	
+
 	public void clickPseudoHue() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
 		String msg = "From[ " + ti.id + " ] Algoritmo::PseudoHue";
 		try {
-			PseudoHue ph = new PseudoHue( ti.getImage() );
+			PseudoHue ph = new PseudoHue(ti.getImage());
 			ph.execute();
 			BufferedImage out = ph.geraImagem();
-			if( imagemMesmaJanela )
+			if (imagemMesmaJanela)
 				ti.addNewImage(out);
 			else
-				mostraImagem( msg, out );
+				mostraImagem(msg, out);
 		} catch (Exception e) {
-			int aa = 0;
-			aa++;
+			// TODO:
 		}
 	}
-	
+
 	public void clickYIQ() {
 		TelaInterna ti = (TelaInterna) contentPane.getSelectedFrame();
 		String msg = "From[ " + ti.id + " ] Algoritmo::YIQ";
 		try {
 			YIQ yiq = new YIQ(ti.getImage());
-			//yiq.init();
+			// yiq.init();
 			yiq.execute();
 			BufferedImage out = yiq.geraImagem();
-			if( imagemMesmaJanela )
+			if (imagemMesmaJanela)
 				ti.addNewImage(out);
 			else
-				mostraImagem( msg, out );
+				mostraImagem(msg, out);
 		} catch (Exception e) {
 			// TODO::
-		}
-		/*
-		 * YCbCr ycc = new YCbCr( ti.getImage() ); ycc.init(); ycc.execute();
-		 * int limiar = ycc.getLimiar(); BufferedImage out = ycc.geraImagem(
-		 * limiar ); ti.addNewImage( out );
-		 */
-	}
-
-	public void clickProcessaTudo() {
-		// TelaInterna ti = ( TelaInterna )contentPane.getSelectedFrame();
-		JInternalFrame[] todas = contentPane.getAllFrames();
-		try {
-			for (JInternalFrame tela : todas) {
-				TelaInterna ti = (TelaInterna) tela;
-				YCbCr ycc = new YCbCr(ti.getImage());
-				ycc.execute();
-				BufferedImage out = ycc.geraImagem();
-				ti.addNewImage(out);
-			}
-		} catch (Exception e) {
-
-		}
-	}
-
-	public void clickCarregaArquivos() throws Exception {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		fileChooser.setMultiSelectionEnabled(true);
-		File umDir = new File(System.getProperty("user.dir"));
-		fileChooser.setCurrentDirectory(umDir);
-		if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
-			return;
-		}
-		File[] files = fileChooser.getSelectedFiles();
-		for (File f : files) {
-			BufferedImage imagem = ImageIO.read(f);
-			TelaInterna interno = new TelaInterna(imagem);
-			contentPane.add(interno);
-			interno.setVisible(true);
 		}
 	}
 
@@ -126,19 +106,13 @@ public class JanelaPrincipal extends JFrame {
 			YCbCr ycc = new YCbCr(ti.getImage());
 			ycc.execute();
 			BufferedImage out = ycc.geraImagem();
-			if( imagemMesmaJanela )
+			if (imagemMesmaJanela)
 				ti.addNewImage(out);
 			else
-				mostraImagem( msg, out );
+				mostraImagem(msg, out);
 		} catch (Exception e) {
 
 		}
-		// mostraImagem( out );
-
-		/*
-		 * limiar -= 50; for( int i=0; i<20; i++ ) { out = ycc.geraImagem(
-		 * limiar ); mostraImagem( out ); limiar+= 5; }
-		 */
 	}
 
 	public void mostraImagem(String titulo, BufferedImage imgOut) {
@@ -170,43 +144,36 @@ public class JanelaPrincipal extends JFrame {
 		return ti.has2Image();
 	}
 
-	public void clickSave() throws IOException {
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
-		File umDir = new File(System.getProperty("user.dir"));
-		fileChooser.setCurrentDirectory(umDir);
-		if (fileChooser.showSaveDialog(this) != JFileChooser.APPROVE_OPTION) {
-			return;
-		}
-		File salvar = fileChooser.getSelectedFile();
+	public void clickProcessaTudo() {
+		JInternalFrame[] todas = contentPane.getAllFrames();
+		try {
+			for (JInternalFrame tela : todas) {
+				TelaInterna ti = (TelaInterna) tela;
+				YCbCr ycc = new YCbCr(ti.getImage());
+				ycc.execute();
+				mostraImagem(ycc.geraImagem());
+			}
+		} catch (Exception e) {
 
-		if (!has2Image()) {
-			BufferedImage img = getImage();
-			ImageIO.write(img, "bmp", salvar);
-			return;
 		}
-		BufferedImage[] img = get2Image();
-		String path = salvar.getAbsolutePath() + "-1.bmp";
-		// String nome = salvar.getName() + "-1.bmp";
-		ImageIO.write(img[0], "bmp", salvar);
-		File s2 = new File(path);
-		ImageIO.write(img[1], "bmp", s2);
 	}
 
-	public void clickOnLoad() throws Exception {
+	public void clickCarregaArquivos() throws Exception {
+		BufferedImage imgs[] = fileManager.carregaImagens();
 
-		JFileChooser fileChooser = new JFileChooser();
-		fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
-		File umDir = new File(System.getProperty("user.dir"));
-		fileChooser.setCurrentDirectory(umDir);
-		if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION) {
-			return;
-		}
-		File file = fileChooser.getSelectedFile();
-		BufferedImage imagem = ImageIO.read(file);
-		TelaInterna interno = new TelaInterna(imagem);
-		contentPane.add(interno);
-		interno.setVisible(true);
+		for (BufferedImage imagem : imgs)
+			mostraImagem(imagem);
+	}
+
+	public void clickSave() throws Exception {
+		if (has2Image())
+			fileManager.save(get2Image());
+		else
+			fileManager.save(getImage());
+	}
+
+	public void clickLoad() throws Exception {
+		mostraImagem(fileManager.carregaImagem());
 	}
 
 	/**
@@ -226,7 +193,7 @@ public class JanelaPrincipal extends JFrame {
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					clickOnLoad();
+					clickLoad();
 				} catch (Exception ex) {
 
 				}
@@ -263,13 +230,31 @@ public class JanelaPrincipal extends JFrame {
 		JMenu mnImagens = new JMenu("Imagens");
 		menuBar.add(mnImagens);
 
+		JMenuItem mntmCarregaProcessa = new JMenuItem(
+				"Carrega / Processa e Salva em Lote...");
+		mntmCarregaProcessa.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickFazTudo();
+				} catch (Exception ex) {
+					// TODO:
+				}
+			}
+		});
+		mnImagens.add(mntmCarregaProcessa);
+
 		JMenu mnProcessamento = new JMenu("Processamento");
 		menuBar.add(mnProcessamento);
 
 		JMenuItem mntmYcbcr = new JMenuItem("YCbCr");
 		mntmYcbcr.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clickYCbCr();
+				try {
+					clickAlgoritmo( Algoritmos.YCBCR );
+				} catch( Exception ex ) {
+					// TODO: 
+				}
+				//clickYCbCr();
 			}
 		});
 		mnProcessamento.add(mntmYcbcr);
@@ -285,23 +270,37 @@ public class JanelaPrincipal extends JFrame {
 		JMenuItem mntmYiqq = new JMenuItem("YIQ-Q");
 		mntmYiqq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clickYIQ();
+				try {
+					clickAlgoritmo( Algoritmos.YIQ );
+				} catch( Exception ex ) {
+					// TODO;
+				}
+				//clickYIQ();
 			}
 		});
 		mnProcessamento.add(mntmYiqq);
-		
+
 		JMenuItem mntmPseudoHue = new JMenuItem("Pseudo Hue");
 		mntmPseudoHue.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clickPseudoHue();
+				try {
+					clickAlgoritmo( Algoritmos.PSEUDOHUE );
+				} catch( Exception ex ) {
+					// TODO:
+				}
+				//clickPseudoHue();
 			}
 		});
 		mnProcessamento.add(mntmPseudoHue);
-		
+
 		JMenuItem mntmI = new JMenuItem("I3");
 		mntmI.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				clickI3();
+				try{
+					clickAlgoritmo( Algoritmos.I3 );
+				} catch( Exception ex ) {
+					// TODO: 
+				}
 			}
 		});
 		mnProcessamento.add(mntmI);

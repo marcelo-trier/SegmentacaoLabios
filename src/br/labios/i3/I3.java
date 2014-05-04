@@ -19,7 +19,7 @@ public class I3 extends PixelManager2<PixelI3> {
 			int vlr = p.getHistogramValue();
 			oHistograma.soma( vlr );
 		}
-		int t = oHistograma.getOtsuThreshold();	
+		oHistograma.getOtsuThreshold();	
 	}
 
 	@Override

@@ -1,13 +1,9 @@
 package br.labios.pseudohue;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
 
-import br.labios.util.Histograma;
 import br.labios.util.OsPixel;
 import br.labios.util.PixelManager2;
-import br.labios.yiq.PixelYIQ;
 
 public class PseudoHue extends PixelManager2<PixelPseudoHue> {
 
@@ -20,7 +16,7 @@ public class PseudoHue extends PixelManager2<PixelPseudoHue> {
 			int vlr = p.getHistogramValue();
 			oHistograma.soma( vlr );
 		}
-		int t = oHistograma.getOtsuThreshold();	
+		oHistograma.getOtsuThreshold();	
 	}
 
 	@Override

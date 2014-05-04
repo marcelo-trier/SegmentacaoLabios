@@ -1,14 +1,8 @@
 package br.labios.yiq;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.util.ArrayList;
 
-import br.labios.YCbCr.PixelYCbCr;
-import br.labios.util.Histograma;
 import br.labios.util.OsPixel;
-import br.labios.util.PixelManager;
 import br.labios.util.PixelManager2;
 
 public class YIQ extends PixelManager2<PixelYIQ> {
@@ -61,7 +55,7 @@ public class YIQ extends PixelManager2<PixelYIQ> {
 			int vlr = p.getHistogramValue();
 			oHistograma.soma( vlr ); // aqui to somando 127 pq o Q tem a escala [-127, +127]
 		}
-		int t = oHistograma.getOtsuThreshold();	
+		oHistograma.getOtsuThreshold();	
 	}
 
 }

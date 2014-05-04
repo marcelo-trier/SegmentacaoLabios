@@ -1,7 +1,5 @@
 package br.labios.yiq;
 
-import java.awt.Point;
-
 import br.labios.util.OsPixel;
 
 // YIQ RANGE:
