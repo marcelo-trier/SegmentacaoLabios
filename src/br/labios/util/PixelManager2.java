@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public abstract class PixelManager2<T extends OsPixel> {
 	
 	protected ArrayList<T> aLista = new ArrayList<T>();
-	protected Histograma oHistograma;
+	public Histograma oHistograma;
 
 	protected BufferedImage _img;
 	protected Class<? extends OsPixel> PixelClass;

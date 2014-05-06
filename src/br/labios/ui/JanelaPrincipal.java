@@ -27,6 +27,7 @@ public class JanelaPrincipal extends JFrame {
 	private JDesktopPane contentPane;
 	protected boolean imagemMesmaJanela = false;
 	protected GerenteArquivos fileManager = new GerenteArquivos(this);
+	private static final boolean MOSTRAR_OTSU = true;
 
 	long initTime = 0;
 	
@@ -67,6 +68,11 @@ public class JanelaPrincipal extends JFrame {
 		PixelManager2<?> obj = Algoritmos.novoAlgoritmo( alg, getImage() );
 		obj.execute();
 		mostraImagem( msg, obj.geraImagem() );
+		if( MOSTRAR_OTSU ) {
+			int otsu = obj.oHistograma.getOtsuThreshold();
+			String mensagem = "Otsu = " + otsu;
+			JOptionPane.showMessageDialog( this, mensagem );
+		}
 	}
 	
 	public void mostraImagem(String titulo, BufferedImage imgOut) {
@@ -258,6 +264,18 @@ public class JanelaPrincipal extends JFrame {
 			}
 		});
 		mnProcessamento.add(mntmI);
+		
+		JMenuItem mntmOtsu = new JMenuItem("Otsu");
+		mntmOtsu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					clickAlgoritmo( Algoritmos.TESTE_OTSU );
+				} catch( Exception ex ) {
+					
+				}
+			}
+		});
+		mnProcessamento.add(mntmOtsu);
 		contentPane = new JDesktopPane();
 		contentPane.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -81,7 +81,7 @@ public class Histograma {
 				minVar = varInterno;
 			}
 		}
-		
+		superT++;
 		return superT;
 	}
 	
