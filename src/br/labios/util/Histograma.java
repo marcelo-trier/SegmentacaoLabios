@@ -10,7 +10,6 @@ public class Histograma {
 	int max;
 	public int superT = 0;
 	
-	
 	public Histograma() {
 		histograma = new int[ 256 ];
 	}
