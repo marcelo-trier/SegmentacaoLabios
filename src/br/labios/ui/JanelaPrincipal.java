@@ -104,7 +104,7 @@ public class JanelaPrincipal extends JFrame {
 		return ti.has2Image();
 	}
 
-	public void clickProcessaTudo() {
+	public void clickProcessaTodosYCrCb() {
 		JInternalFrame[] todas = contentPane.getAllFrames();
 		try {
 			for (JInternalFrame tela : todas) {
@@ -218,14 +218,6 @@ public class JanelaPrincipal extends JFrame {
 			}
 		});
 		mnProcessamento.add(mntmYcbcr);
-
-		JMenuItem mntmFechaTudo = new JMenuItem("YCbCr em Lote...");
-		mntmFechaTudo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clickProcessaTudo();
-			}
-		});
-		mnProcessamento.add(mntmFechaTudo);
 
 		JMenuItem mntmYiqq = new JMenuItem("YIQ-Q");
 		mntmYiqq.addActionListener(new ActionListener() {
