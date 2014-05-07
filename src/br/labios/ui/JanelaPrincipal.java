@@ -27,7 +27,7 @@ public class JanelaPrincipal extends JFrame {
 	private JDesktopPane contentPane;
 	protected boolean imagemMesmaJanela = false;
 	protected GerenteArquivos fileManager = new GerenteArquivos(this);
-	private static final boolean MOSTRAR_OTSU = true;
+	private static final boolean MOSTRAR_OTSU = false;
 
 	long initTime = 0;
 	
