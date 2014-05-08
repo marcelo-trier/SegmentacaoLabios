@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JInternalFrame;
+import javax.swing.JScrollPane;
 
 
 public class TelaInterna extends JInternalFrame {
@@ -53,12 +54,24 @@ public class TelaInterna extends JInternalFrame {
 		
 		setBounds(cantoX, cantoY, img.getWidth() + 20, img.getHeight() + 50 );
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		getContentPane().add( scrollPane, BorderLayout.CENTER );
 		
 		
 		imagem = img;
 		panel = new ImagePanel( img );
 		panel.setPreferredSize( new Dimension(img.getWidth(), img.getHeight() ) );
-		getContentPane().add(panel, BorderLayout.WEST);
+		scrollPane.setViewportView( panel );
+/*
+		imagem = img;
+		panel = new ImagePanel( img );
+		scrollPane.setViewportView( panel );
+		
+ */
+		
+		//getContentPane().add(panel, BorderLayout.CENTER );
 		contadorJanela++;
 	}
 	

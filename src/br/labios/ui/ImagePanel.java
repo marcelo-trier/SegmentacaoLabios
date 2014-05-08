@@ -1,5 +1,6 @@
 package br.labios.ui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -13,7 +14,8 @@ public class ImagePanel extends JPanel {
 	public ImagePanel( BufferedImage img ) {
 		super();
 		imagem = img;
-		//this.addMouseListener( this );
+		setAutoscrolls( true );
+		setPreferredSize( new Dimension( img.getWidth(), img.getHeight() ) );
 	}
 	
     @Override
